@@ -14,4 +14,15 @@ class FISHYPHUS_API UItemDataAsset : public UDataAsset
 {
 	GENERATED_BODY()
 	
+public:
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category="Item Info")
+	FString name;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Info")
+	UStaticMesh* mesh;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Info")
+	FString description;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item Info")
+	float meshScale;
 };

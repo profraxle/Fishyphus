@@ -10,6 +10,12 @@ AMyPlayer::AMyPlayer()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	//// Create a CameraComponent	
+	camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	camera->SetupAttachment(RootComponent);
+	camera->SetRelativeLocation(FVector(-10.f, 0.f, 60.f)); // Position the camera
+	camera->bUsePawnControlRotation = true;
+
 }
 // Called when the game starts or when spawned
 void AMyPlayer::BeginPlay()
@@ -24,6 +30,8 @@ void AMyPlayer::BeginPlay()
 			Subsystem->AddMappingContext(inputMappingContext, 0);
 		}
 	}
+
+
 }
 
 //move around
@@ -110,6 +118,8 @@ void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AMyPlayer::launchBobber() {
 	if (spawnedBobber) {
-		spawnedBobber->sphereCollider->AddImpulse(GetActorForwardVector() * 1000, NAME_None, true);
+		if (camera) {
+			spawnedBobber->sphereCollider->AddImpulse(camera->GetForwardVector() * 1000, NAME_None, true);
+		}
 	}
 }

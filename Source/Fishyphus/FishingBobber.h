@@ -8,10 +8,10 @@
 #include "ParticleHelper.h"
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "MyPlayer.h"
 #include "FishingBobber.generated.h"
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFishCaught);
 
 UCLASS()
 class FISHYPHUS_API AFishingBobber : public AActor
@@ -59,11 +59,10 @@ public:
 	float canCatchBobMultiplier = 2.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float bobSpeed = 4.f;
-	UPROPERTY(BlueprintAssignable)
-	FOnFishCaught OnFishCaught;
 
 	bool fishing = false;
 	bool canCatch = false;
 	float timeTilCatch = 0.0f;
 	float bobbingTimer = 0.0f;
+	AMyPlayer* player = nullptr;
 };

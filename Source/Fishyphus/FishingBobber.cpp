@@ -63,11 +63,22 @@ void AFishingBobber::generateRandomFishingTime() {
 // Hook this up to an input action in player controller
 void AFishingBobber::attemptCatch() {
 	if (canCatch) {
-		OnFishCaught.Broadcast();
+		if (player) {
+			player->OnFishCaught.Broadcast();
+		}
+		fishing = false;
+		canCatch = false;
+		player->spawnedBobber = nullptr;
+		Destroy();
 	}
 }
 
 void AFishingBobber::handleBobbing(float DeltaTime) {
-	bobbingTimer += DeltaTime * (canCatch ? canCatchBobMultiplier : 1);
-	staticMeshComponent->SetRelativeLocation(FVector(0, 0, -bobAltitude + cosf(bobSpeed * bobbingTimer) * bobAltitude));
+	if (fishing) {
+		bobbingTimer += DeltaTime * (canCatch ? canCatchBobMultiplier : 1);
+		staticMeshComponent->SetRelativeLocation(FVector(0, 0, -bobAltitude + cosf(bobSpeed * bobbingTimer) * bobAltitude));
+	}
+	else {
+		staticMeshComponent->SetRelativeLocation(FVector(0, 0, 0));
+	}
 }

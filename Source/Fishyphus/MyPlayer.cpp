@@ -2,6 +2,7 @@
 
 
 #include "MyPlayer.h"
+#include "FishingBobber.h"
 
 // Sets default values
 AMyPlayer::AMyPlayer()
@@ -54,6 +55,33 @@ void AMyPlayer::JumpFunc(const FInputActionValue& Value)
 void AMyPlayer::Fish(const FInputActionValue& Value)
 {
 	//like idk someone can put something here fishing related
+	if (spawnedBobber == nullptr) {
+		UObject* SpawnActor = Cast<UObject>(StaticLoadObject(UObject::StaticClass(), NULL, TEXT("/Game/Blueprints/MyFishingBobber.MyFishingBobber")));
+
+		UBlueprint* GeneratedBP = Cast<UBlueprint>(SpawnActor);
+		if (!SpawnActor)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("CANT FIND OBJECT TO SPAWN")));
+			return;
+		}
+
+		UClass* SpawnClass = SpawnActor->StaticClass();
+		if (SpawnClass == NULL)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("CLASS == NULL")));
+			return;
+		}
+
+		UWorld* World = GetWorld();
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		spawnedBobber = (AFishingBobber*)World->SpawnActor<AActor>(GeneratedBP->GeneratedClass, GetActorLocation(), GetActorRotation(), SpawnParams);
+		spawnedBobber->player = this;
+	}
+	else {
+		spawnedBobber->attemptCatch();
+	}
 }
 
 

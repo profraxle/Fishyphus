@@ -32,6 +32,7 @@ ACauldron::ACauldron()
 
 }
 
+// ---- Call this to get location to move items to ----
 FVector ACauldron::GetSpawnLocation()
 {
 	return SpawnPoint->GetComponentLocation();
@@ -42,6 +43,8 @@ void ACauldron::BeginPlay()
 {
 	Super::BeginPlay();
 	Particles->SetActive(false);
+
+	startRotator = GetActorRotation();
 }
 
 void ACauldron::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -99,10 +102,10 @@ void ACauldron::Tick(float DeltaTime)
 			tipping = false;
 			tipped = true;
 			timers.clear();
-			Mesh->SetRelativeRotation(FRotator(0, 0, TargetAngle));
+			SetActorRotation(startRotator + FRotator(0, 0, TargetAngle));
 		}
 		else {
-			Mesh->SetRelativeRotation(FRotator(0, 0, FMath::Lerp(0, TargetAngle, lerpTimer)));
+			Mesh->SetRelativeRotation(startRotator + FRotator(0, 0, FMath::Lerp(0, TargetAngle, lerpTimer)));
 		}
 	}
 	else if (tipped && !containedActors.empty()) {
@@ -131,11 +134,11 @@ void ACauldron::Tick(float DeltaTime)
 				lerpTimer = 0;
 				tipped = false;
 				timers.clear();
-				Mesh->SetRelativeRotation(FRotator(0, 0, 0));
+				Mesh->SetRelativeRotation(startRotator);
 				Particles->SetActive(false);
 			}
 			else {
-				Mesh->SetRelativeRotation(FRotator(0, 0, FMath::Lerp(TargetAngle, 0, lerpTimer/2.f)));
+				Mesh->SetRelativeRotation(startRotator + FRotator(0, 0, FMath::Lerp(TargetAngle, 0, lerpTimer/2.f)));
 			}
 		}
 	}

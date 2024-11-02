@@ -23,6 +23,7 @@ public:
 	// Sets default values for this actor's properties
 	ACauldron();
 
+	// ---- Call this to get location to move items to ----
 	UFUNCTION(BlueprintCallable)
 	FVector GetSpawnLocation();
 
@@ -63,6 +64,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Cauldron, meta = (AllowPrivateAccess = "true"))
 	float Impulse = 60.f;
+
+	FRotator startRotator;
 
 	bool tipping = false;
 	bool tipped = false;

@@ -8,8 +8,10 @@ AFishingBobber::AFishingBobber()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	sphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere Collider"));
+	sphereCollider->SetupAttachment(RootComponent);
 	staticMeshAnchorPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Static Mesh Anchor Point"));
-	staticMeshAnchorPoint->SetupAttachment(RootComponent);
+	staticMeshAnchorPoint->SetupAttachment(sphereCollider);
 	staticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Static Mesh Component"));
 	staticMeshComponent->SetupAttachment(staticMeshAnchorPoint);
 	splashSound = CreateDefaultSubobject<USoundBase>(TEXT("Splash Sound"));
@@ -21,13 +23,14 @@ void AFishingBobber::BeginPlay()
 {
 	Super::BeginPlay();
 	// Remove this later
-	beginFishing();
+	//beginFishing();
 }
 
 // Called every frame
 void AFishingBobber::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	SetActorRotation(FQuat());
 	if (fishing) {
 		if (timeTilCatch > -fishingCatchTimeLeniency) {
 			timeTilCatch -= DeltaTime;
@@ -48,6 +51,7 @@ void AFishingBobber::Tick(float DeltaTime)
 
 // Call this once the bobber hits the water, also called when a fishing attempt times out
 void AFishingBobber::beginFishing() {
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), splashSound, GetActorLocation());
 	generateRandomFishingTime();
 	fishing = true;
 	canCatch = false;
@@ -66,11 +70,9 @@ void AFishingBobber::attemptCatch() {
 		if (player) {
 			player->OnFishCaught.Broadcast();
 		}
-		fishing = false;
-		canCatch = false;
-		player->spawnedBobber = nullptr;
-		Destroy();
 	}
+	player->spawnedBobber = nullptr;
+	Destroy();
 }
 
 void AFishingBobber::handleBobbing(float DeltaTime) {

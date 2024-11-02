@@ -8,6 +8,7 @@
 #include "ParticleHelper.h"
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "Components/SphereComponent.h" 
 #include "MyPlayer.h"
 #include "FishingBobber.generated.h"
 
@@ -46,6 +47,8 @@ public:
 	UParticleSystem* splashParticles;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UParticleSystemComponent* splashParticlesComponent;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USphereComponent* sphereCollider;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float minFishingCatchTime = 5.f;

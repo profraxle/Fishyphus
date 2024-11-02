@@ -78,6 +78,7 @@ void AMyPlayer::Fish(const FInputActionValue& Value)
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		spawnedBobber = (AFishingBobber*)World->SpawnActor<AActor>(GeneratedBP->GeneratedClass, GetActorLocation(), GetActorRotation(), SpawnParams);
 		spawnedBobber->player = this;
+		launchBobber();
 	}
 	else {
 		spawnedBobber->attemptCatch();
@@ -107,3 +108,8 @@ void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+void AMyPlayer::launchBobber() {
+	if (spawnedBobber) {
+		spawnedBobber->sphereCollider->AddImpulse(GetActorForwardVector() * 1000, NAME_None, true);
+	}
+}

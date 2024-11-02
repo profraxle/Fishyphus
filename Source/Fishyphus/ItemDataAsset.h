@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType)
 class FISHYPHUS_API UItemDataAsset : public UDataAsset
 {
 	GENERATED_BODY()

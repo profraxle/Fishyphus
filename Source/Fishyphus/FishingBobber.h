@@ -44,8 +44,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USoundBase* splashSound;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UParticleSystem* splashParticles;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UParticleSystemComponent* splashParticlesComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USphereComponent* sphereCollider;

@@ -51,7 +51,7 @@ void AFishingBobber::beginFishing() {
 	generateRandomFishingTime();
 	fishing = true;
 	canCatch = false;
-	splashParticlesComponent->Deactivate();
+	//splashParticlesComponent->Deactivate();
 }
 
 void AFishingBobber::generateRandomFishingTime() {

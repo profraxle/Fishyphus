@@ -60,12 +60,8 @@ void AFishingBobber::generateRandomFishingTime() {
 // Hook this up to an input action in player controller
 void AFishingBobber::attemptCatch() {
 	if (canCatch) {
-		OnFishCaught.Broadcast(getRandomFishToCatch());
+		OnFishCaught.Broadcast();
 	}
-}
-
-UItemDataAsset* AFishingBobber::getRandomFishToCatch() {
-	return fishList[rand() % fishList.Num()];
 }
 
 void AFishingBobber::handleBobbing(float DeltaTime) {

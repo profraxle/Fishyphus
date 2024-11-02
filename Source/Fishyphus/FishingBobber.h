@@ -4,12 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "ItemDataAsset.h"
 #include "Kismet/GameplayStatics.h"
 #include "FishingBobber.generated.h"
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnFishCaught, UItemDataAsset*, CaughtFishDataAsset);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFishCaught);
 
 UCLASS()
 class FISHYPHUS_API AFishingBobber : public AActor
@@ -25,7 +24,6 @@ protected:
 	virtual void BeginPlay() override;
 
 	void generateRandomFishingTime();
-	UItemDataAsset* getRandomFishToCatch();
 	void handleBobbing(float DeltaTime);
 public:	
 	// Called every frame
@@ -54,8 +52,6 @@ public:
 	float canCatchBobMultiplier = 2.f;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float bobSpeed = 4.f;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<UItemDataAsset*> fishList;
 	UPROPERTY(BlueprintAssignable)
 	FOnFishCaught OnFishCaught;
 

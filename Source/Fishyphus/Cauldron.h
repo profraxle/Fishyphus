@@ -6,8 +6,9 @@
 #include "GameFramework/Actor.h"
 
 #include "Components/BoxComponent.h"
-
+#include "Particles/ParticleSystemComponent.h"
 #include <vector>
+#include <stack>
 #include <list>
 #include "Engine/TimerHandle.h"
 #include "TimerManager.h"
@@ -22,6 +23,9 @@ public:
 	// Sets default values for this actor's properties
 	ACauldron();
 
+	UFUNCTION(BlueprintCallable)
+	FVector GetSpawnLocation();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -34,6 +38,10 @@ protected:
 	UFUNCTION()
 	void OnOverlapExit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Cauldron,
+		meta = (AllowPrivateAccess = "true"))
+	UParticleSystemComponent* Particles;
 
 	void CheckCollision(AActor* actor);
 
@@ -50,10 +58,14 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Cauldron, meta = (AllowPrivateAccess = "true"))
 	UBoxComponent* TopCollider = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Cauldron, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Cauldron, meta = (AllowPrivateAccess = "true"))
 	float TargetAngle = 60.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Cauldron, meta = (AllowPrivateAccess = "true"))
+	float Impulse = 60.f;
+
 	bool tipping = false;
+	bool tipped = false;
 
 	std::vector<FTimerHandle> timers;
 
@@ -61,6 +73,7 @@ protected:
 	std::vector<AActor*> containedActors;
 
 	float lerpTimer = 0.f;
+	float timeElapsed = 0.f;
 
 public:	
 	// Called every frame

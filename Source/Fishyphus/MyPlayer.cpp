@@ -1,0 +1,81 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "MyPlayer.h"
+
+// Sets default values
+AMyPlayer::AMyPlayer()
+{
+ 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
+
+}
+// Called when the game starts or when spawned
+void AMyPlayer::BeginPlay()
+{
+	Super::BeginPlay();
+
+	//Mapping context for movement
+	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			Subsystem->AddMappingContext(inputMappingContext, 0);
+		}
+	}
+}
+
+//move around
+void AMyPlayer::Move(const FInputActionValue& Value)
+{
+	FVector2D moveVector = Value.Get<FVector2D>();
+
+	AddMovementInput(GetActorForwardVector(),moveVector.Y);
+	AddMovementInput(GetActorRightVector(), moveVector.X);
+}
+
+//look around
+void AMyPlayer::Look(const FInputActionValue& Value)
+{
+	FVector2D lookVector = Value.Get<FVector2D>();
+	AddControllerYawInput(lookVector.X);
+	AddControllerPitchInput(-lookVector.Y);
+}
+
+//jump? idk if we wanna jump but why not
+void AMyPlayer::JumpFunc(const FInputActionValue& Value)
+{
+	const bool jumpPressed = Value.Get<bool>();
+
+	ACharacter::Jump();
+}
+
+//fish function?
+void AMyPlayer::Fish(const FInputActionValue& Value)
+{
+	//like idk someone can put something here fishing related
+}
+
+
+// Called every frame
+void AMyPlayer::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+}
+
+// Called to bind functionality to input
+void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	if (UEnhancedInputComponent* EnhancedInputComponenet = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		EnhancedInputComponenet->BindAction(moveIA, ETriggerEvent::Triggered, this, &AMyPlayer::Move);
+		EnhancedInputComponenet->BindAction(lookIA, ETriggerEvent::Triggered, this, &AMyPlayer::Look);
+		EnhancedInputComponenet->BindAction(jumpIA, ETriggerEvent::Started, this, &AMyPlayer::JumpFunc);
+		EnhancedInputComponenet->BindAction(fishIA, ETriggerEvent::Started, this, &AMyPlayer::Fish);
+	}
+
+
+}
+

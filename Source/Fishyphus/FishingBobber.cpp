@@ -13,6 +13,7 @@ AFishingBobber::AFishingBobber()
 	staticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Static Mesh Component"));
 	staticMeshComponent->SetupAttachment(staticMeshAnchorPoint);
 	splashSound = CreateDefaultSubobject<USoundBase>(TEXT("Splash Sound"));
+	//splashParticlesComponent = UGameplayStatics::SpawnEmitterAttached(splashParticles, staticMeshAnchorPoint, NAME_None, FVector::ZeroVector, FRotator::ZeroRotator, EAttachLocation::SnapToTarget, false);
 }
 
 // Called when the game starts or when spawned
@@ -35,6 +36,7 @@ void AFishingBobber::Tick(float DeltaTime)
 				// Play splash noise
 				UGameplayStatics::PlaySoundAtLocation(GetWorld(), splashSound, GetActorLocation());
 				// Add splash particles
+				//splashParticlesComponent->Activate();
 			}
 		}
 		else {
@@ -49,6 +51,7 @@ void AFishingBobber::beginFishing() {
 	generateRandomFishingTime();
 	fishing = true;
 	canCatch = false;
+	splashParticlesComponent->Deactivate();
 }
 
 void AFishingBobber::generateRandomFishingTime() {

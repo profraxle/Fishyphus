@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Kismet/GameplayStatics.h"
+#include "ParticleHelper.h"
+#include "Particles/ParticleSystem.h"
+#include "Particles/ParticleSystemComponent.h"
 #include "FishingBobber.generated.h"
 
 
@@ -39,6 +42,10 @@ public:
 	UStaticMeshComponent* staticMeshComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USoundBase* splashSound;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UParticleSystem* splashParticles;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UParticleSystemComponent* splashParticlesComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float minFishingCatchTime = 5.f;

@@ -11,7 +11,7 @@ ACauldron::ACauldron()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	Mesh->SetupAttachment(GetRootComponent());
+	//Mesh->SetupAttachment(GetRootComponent());
 
 	SpawnPoint = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Spawn"));
 	SpawnPoint->SetupAttachment(Mesh);
@@ -99,10 +99,10 @@ void ACauldron::Tick(float DeltaTime)
 			tipping = false;
 			tipped = true;
 			timers.clear();
-			SetActorRotation(FRotator(0, 0, TargetAngle));
+			Mesh->SetRelativeRotation(FRotator(0, 0, TargetAngle));
 		}
 		else {
-			SetActorRotation(FRotator(0, 0, FMath::Lerp(0, TargetAngle, lerpTimer)));
+			Mesh->SetRelativeRotation(FRotator(0, 0, FMath::Lerp(0, TargetAngle, lerpTimer)));
 		}
 	}
 	else if (tipped && !containedActors.empty()) {
@@ -131,11 +131,11 @@ void ACauldron::Tick(float DeltaTime)
 				lerpTimer = 0;
 				tipped = false;
 				timers.clear();
-				SetActorRotation(FRotator(0, 0, 0));
+				Mesh->SetRelativeRotation(FRotator(0, 0, 0));
 				Particles->SetActive(false);
 			}
 			else {
-				SetActorRotation(FRotator(0, 0, FMath::Lerp(TargetAngle, 0, lerpTimer/2.f)));
+				Mesh->SetRelativeRotation(FRotator(0, 0, FMath::Lerp(TargetAngle, 0, lerpTimer/2.f)));
 			}
 		}
 	}

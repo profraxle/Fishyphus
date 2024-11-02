@@ -16,6 +16,7 @@ AFishingBobber::AFishingBobber()
 	staticMeshComponent->SetupAttachment(staticMeshAnchorPoint);
 	splashSound = CreateDefaultSubobject<USoundBase>(TEXT("Splash Sound"));
 	splashParticlesComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Particles"));
+	splashParticlesComponent->SetupAttachment(sphereCollider);
 }
 
 // Called when the game starts or when spawned
@@ -40,6 +41,7 @@ void AFishingBobber::Tick(float DeltaTime)
 				// Play splash noise
 				UGameplayStatics::PlaySoundAtLocation(GetWorld(), splashSound, GetActorLocation());
 				// Add splash particles
+				UE_LOG(LogTemp, Warning, TEXT("particles on"));
 				splashParticlesComponent->SetActive(true);
 				splashParticlesComponent->Activate(true);
 			}
@@ -57,6 +59,7 @@ void AFishingBobber::beginFishing() {
 	generateRandomFishingTime();
 	fishing = true;
 	canCatch = false;
+	UE_LOG(LogTemp, Warning, TEXT("particles off"));
 	splashParticlesComponent->SetActive(false);
 }
 

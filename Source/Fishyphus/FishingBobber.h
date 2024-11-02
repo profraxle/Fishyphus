@@ -43,7 +43,7 @@ public:
 	UStaticMeshComponent* staticMeshComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USoundBase* splashSound;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UParticleSystemComponent* splashParticlesComponent;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USphereComponent* sphereCollider;

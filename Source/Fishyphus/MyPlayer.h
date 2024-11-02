@@ -11,6 +11,10 @@
 #include "EnhancedInputSubsystems.h"
 #include "MyPlayer.generated.h"
 
+class AFishingBobber;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFishCaught);
+
 UCLASS()
 class FISHYPHUS_API AMyPlayer : public ACharacter
 {
@@ -52,6 +56,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UInputMappingContext* inputMappingContext;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	AFishingBobber* spawnedBobber = nullptr;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnFishCaught OnFishCaught;
 
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	//UCameraComponent* camera;

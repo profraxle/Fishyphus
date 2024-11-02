@@ -9,6 +9,7 @@
 #include "InputMappingContext.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Camera/CameraComponent.h"
 #include "MyPlayer.generated.h"
 
 class AFishingBobber;
@@ -66,7 +67,7 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FOnFishCaught OnFishCaught;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//UCameraComponent* camera;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UCameraComponent* camera;
 
 };

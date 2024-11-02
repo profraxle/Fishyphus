@@ -30,6 +30,9 @@ public:
 	void JumpFunc(const FInputActionValue& Value);
 	void Fish(const FInputActionValue& Value);
 
+	// Launch Fishing Bobber
+	void launchBobber();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

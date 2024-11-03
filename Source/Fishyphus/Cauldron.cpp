@@ -4,6 +4,7 @@
 #include "Cauldron.h"
 #include "Engine/StaticMeshActor.h"
 #include "Item.h"
+#include "MyPlayer.h"
 
 // Sets default values
 ACauldron::ACauldron()
@@ -50,6 +51,7 @@ void ACauldron::BeginPlay()
 
 void ACauldron::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (IsValid(Cast<AMyPlayer>(OtherActor))) return;
 	if (!tipping && !tipped) {
 		UE_LOG(LogTemp, Warning, TEXT("Overlap"));
 		topOverlappedActors.push_back(OtherActor);
@@ -62,6 +64,7 @@ void ACauldron::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* Othe
 
 void ACauldron::OnOverlapExit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+	if (IsValid(Cast<AMyPlayer>(OtherActor))) return;
 	if (!tipping && !tipped) {
 		UE_LOG(LogTemp, Warning, TEXT("Exit"));
 		topOverlappedActors.remove(OtherActor);

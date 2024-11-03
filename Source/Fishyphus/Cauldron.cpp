@@ -3,6 +3,7 @@
 
 #include "Cauldron.h"
 #include "Engine/StaticMeshActor.h"
+#include "Item.h"
 
 // Sets default values
 ACauldron::ACauldron()

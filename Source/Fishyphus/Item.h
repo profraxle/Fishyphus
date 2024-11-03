@@ -3,12 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "Engine/StaticMeshActor.h"
 #include "ItemDataAsset.h"
 #include "Item.generated.h"
 
 UCLASS()
-class FISHYPHUS_API AItem : public AActor
+class FISHYPHUS_API AItem : public AStaticMeshActor
 {
 	GENERATED_BODY()
 	

@@ -16,6 +16,9 @@ AMyPlayer::AMyPlayer()
 	camera->SetRelativeLocation(FVector(-10.f, 0.f, 60.f)); // Position the camera
 	camera->bUsePawnControlRotation = true;
 
+	bobberSpawn = CreateDefaultSubobject<USceneComponent>(TEXT("BobberSpawnPoint"));
+	bobberSpawn->SetupAttachment(RootComponent);
+
 }
 // Called when the game starts or when spawned
 void AMyPlayer::BeginPlay()
@@ -84,7 +87,7 @@ void AMyPlayer::Fish(const FInputActionValue& Value)
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.Owner = this;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		spawnedBobber = (AFishingBobber*)World->SpawnActor<AActor>(GeneratedBP->GeneratedClass, GetActorLocation(), GetActorRotation(), SpawnParams);
+		spawnedBobber = (AFishingBobber*)World->SpawnActor<AActor>(GeneratedBP->GeneratedClass, bobberSpawn->GetComponentLocation(), GetActorRotation(), SpawnParams);
 		spawnedBobber->player = this;
 		launchBobber();
 	}

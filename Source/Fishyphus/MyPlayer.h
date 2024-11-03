@@ -70,4 +70,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UCameraComponent* camera;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USceneComponent* bobberSpawn;
+
 };

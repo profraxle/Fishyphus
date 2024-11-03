@@ -10,7 +10,7 @@
  * 
  */
 UCLASS(BlueprintType)
-class FISHYPHUS_API UItemDataAsset : public UDataAsset
+class FISHYPHUS_API UItemDataAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 	

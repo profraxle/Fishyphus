@@ -72,5 +72,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USceneComponent* bobberSpawn;
+	
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<AFishingBobber> actorToSpawn;
 };

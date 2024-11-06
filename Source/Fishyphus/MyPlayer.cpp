@@ -67,27 +67,29 @@ void AMyPlayer::Fish(const FInputActionValue& Value)
 {
 	//like idk someone can put something here fishing related
 	if (spawnedBobber == nullptr) {
-		UObject* SpawnActor = Cast<UObject>(StaticLoadObject(UObject::StaticClass(), NULL, TEXT("/Game/Blueprints/MyFishingBobber.MyFishingBobber")));
+		//UObject* SpawnActor = Cast<UObject>(StaticLoadObject(UObject::StaticClass(), NULL, TEXT("/Game/Blueprints/MyFishingBobber.MyFishingBobber")));
 
-		UBlueprint* GeneratedBP = Cast<UBlueprint>(SpawnActor);
-		if (!SpawnActor)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("CANT FIND OBJECT TO SPAWN")));
-			return;
-		}
+		//UBlueprint* GeneratedBP = Cast<UBlueprint>(SpawnActor);
 
-		UClass* SpawnClass = SpawnActor->StaticClass();
-		if (SpawnClass == NULL)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("CLASS == NULL")));
-			return;
-		}
+
+		//if (!SpawnActor)
+		//{
+		//	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("CANT FIND OBJECT TO SPAWN")));
+		//	return;
+		//}
+
+		//UClass* SpawnClass = SpawnActor->StaticClass();
+		//if (SpawnClass == NULL)
+		//{
+		//	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("CLASS == NULL")));
+		//	return;
+	//	}
 
 		UWorld* World = GetWorld();
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.Owner = this;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		spawnedBobber = (AFishingBobber*)World->SpawnActor<AActor>(GeneratedBP->GeneratedClass, bobberSpawn->GetComponentLocation(), GetActorRotation(), SpawnParams);
+		spawnedBobber = (AFishingBobber*)World->SpawnActor<AFishingBobber>(actorToSpawn, bobberSpawn->GetComponentLocation(), GetActorRotation(), SpawnParams);
 		spawnedBobber->player = this;
 		launchBobber();
 	}

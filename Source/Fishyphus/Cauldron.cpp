@@ -18,6 +18,12 @@ ACauldron::ACauldron()
 	SpawnPoint = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Spawn"));
 	SpawnPoint->SetupAttachment(Mesh);
 
+	TippingSound = CreateDefaultSubobject<UAudioComponent>(TEXT("Tipping"));
+	TippingSound->SetupAttachment(Mesh);
+
+	MagicSound = CreateDefaultSubobject<UAudioComponent>(TEXT("Magic"));
+	MagicSound->SetupAttachment(Mesh);
+
 	TopColl = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TopColl"));
 	TopColl->SetupAttachment(Mesh);
 
@@ -50,7 +56,8 @@ void ACauldron::BeginPlay()
 {
 	Super::BeginPlay();
 	Particles->SetActive(false);
-
+	TippingSound->Stop();
+	MagicSound->Stop();
 	startRotator = GetActorRotation();
 }
 
@@ -101,6 +108,7 @@ void ACauldron::TipCauldron()
 {
 	topOverlappedActors.clear();
 	tipping = true;
+	TippingSound->Play();
 }
 
 // Called every frame
@@ -148,6 +156,7 @@ void ACauldron::Tick(float DeltaTime)
 			if (!Particles->IsActive()) {
 				Particles->SetActive(true);
 				Particles->Activate(true);
+				MagicSound->Play();
 			}
 			lerpTimer += DeltaTime;
 			if (lerpTimer > 2) {

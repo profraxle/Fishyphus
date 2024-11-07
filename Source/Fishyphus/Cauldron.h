@@ -7,6 +7,7 @@
 
 #include "Components/BoxComponent.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "Components/AudioComponent.h"
 #include <vector>
 #include <stack>
 #include <list>
@@ -59,6 +60,14 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Cauldron,
 		meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* SpawnPoint;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Cauldron,
+		meta = (AllowPrivateAccess = "true"))
+	class UAudioComponent* TippingSound;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Cauldron,
+		meta = (AllowPrivateAccess = "true"))
+	class UAudioComponent* MagicSound;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Cauldron, meta = (AllowPrivateAccess = "true"))
 	UBoxComponent* TopCollider = nullptr;

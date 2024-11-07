@@ -50,6 +50,10 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Cauldron,
 		meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* TopColl;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Cauldron,
+		meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* Mesh;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Cauldron,
@@ -63,7 +67,7 @@ protected:
 	float TargetAngle = 60.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Cauldron, meta = (AllowPrivateAccess = "true"))
-	float Impulse = 60.f;
+	float Impulse = 30.f;
 
 	FRotator startRotator;
 

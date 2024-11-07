@@ -18,6 +18,9 @@ ACauldron::ACauldron()
 	SpawnPoint = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Spawn"));
 	SpawnPoint->SetupAttachment(Mesh);
 
+	TopColl = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TopColl"));
+	TopColl->SetupAttachment(Mesh);
+
 	TopCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("TopBox"));
 	TopCollider->SetupAttachment(Mesh);
 
@@ -26,11 +29,13 @@ ACauldron::ACauldron()
 
 	FScriptDelegate overlapFunc;
 	overlapFunc.BindUFunction(this, "OnOverlap");
-	TopCollider->OnComponentBeginOverlap.Add(overlapFunc);
+	//TopCollider->OnComponentBeginOverlap.Add(overlapFunc);
+	TopColl->OnComponentBeginOverlap.Add(overlapFunc);
 
 	FScriptDelegate overlapEndFunc;
 	overlapEndFunc.BindUFunction(this, "OnOverlapExit");
-	TopCollider->OnComponentEndOverlap.Add(overlapEndFunc);
+	//TopCollider->OnComponentEndOverlap.Add(overlapEndFunc);
+	TopColl->OnComponentEndOverlap.Add(overlapEndFunc);
 
 }
 
@@ -67,11 +72,15 @@ void ACauldron::OnOverlapExit(UPrimitiveComponent* OverlappedComponent, AActor* 
 	if (IsValid(Cast<AMyPlayer>(OtherActor))) return;
 	if (!tipping && !tipped) {
 		UE_LOG(LogTemp, Warning, TEXT("Exit"));
+
 		topOverlappedActors.remove(OtherActor);
 	}
 	else {
 		auto it = std::find(containedActors.begin(), containedActors.end(), OtherActor);
 		if(it != containedActors.end()) containedActors.erase(it);
+
+		timers.push_back(FTimerHandle());
+		GetWorldTimerManager().SetTimer(timers.back(), [&, OtherActor]() {UE_LOG(LogTemp, Warning, TEXT("Destroying")); OtherActor->Destroy(); }, 1, false);
 	}
 }
 
@@ -117,11 +126,19 @@ void ACauldron::Tick(float DeltaTime)
 		if (timeElapsed > 0.2) {
 			timeElapsed = 0.f;
 			AStaticMeshActor* staticMesh = Cast<AStaticMeshActor>(containedActors.back());
-			containedActors.pop_back();
+			//containedActors.pop_back();
 			if (IsValid(staticMesh)) {
+				staticMesh->GetStaticMeshComponent()->SetCollisionResponseToChannel(ECC_PhysicsBody, ECR_Ignore);
 				staticMesh->GetStaticMeshComponent()->AddImpulse((SpawnPoint->GetComponentLocation() - staticMesh->GetActorLocation()) * Impulse);
-				timers.push_back(FTimerHandle());
-				GetWorldTimerManager().SetTimer(timers.back(), [&, staticMesh]() {UE_LOG(LogTemp, Warning, TEXT("Destroying")); staticMesh->Destroy(); }, 1, false);
+
+				if (FVector(staticMesh->GetActorLocation() - GetActorLocation()).Length() >= 1000) {
+					staticMesh->Destroy();
+					containedActors.pop_back();
+				}
+				
+			}
+			else {
+				containedActors.pop_back();
 			}
 		}
 	}

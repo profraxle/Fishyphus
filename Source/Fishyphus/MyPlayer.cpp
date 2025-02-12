@@ -13,7 +13,7 @@ AMyPlayer::AMyPlayer()
 	//// Create a CameraComponent	
 	camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	camera->SetupAttachment(RootComponent);
-	camera->SetRelativeLocation(FVector(-10.f, 0.f, 60.f)); // Position the camera
+	camera->SetRelativeLocation(FVector(0.f, 0.f, 50.f)); // Position the camera
 	camera->bUsePawnControlRotation = true;
 
 	bobberSpawn = CreateDefaultSubobject<USceneComponent>(TEXT("BobberSpawnPoint"));
